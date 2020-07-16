@@ -281,7 +281,7 @@ public abstract class CommonController<T> extends BaseController {
      * @param t
      * @return
      */
-    public ResultData selectListByPage(@RequestBody T t, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize")Integer pageSize,@RequestParam("String[]") String... fileds){
+    public ResultData selectListByPageT(@RequestBody T t, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize")Integer pageSize,@RequestParam("String[]") String... fileds){
         try {
             PageInfo<T> tPageInfo = getBaseService().selectListByPageAndFiled(pageNum,pageSize,null,null,null,fileds);
             if(tPageInfo != null && !tPageInfo.equals("")){
