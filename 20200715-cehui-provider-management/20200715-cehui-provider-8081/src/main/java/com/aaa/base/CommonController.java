@@ -99,7 +99,7 @@ public abstract class CommonController<T> extends BaseController {
      * @param t
      * @return
      */
-    public ResultData delete(@RequestBody T t){
+    public ResultData deleteT(@RequestBody T t){
         try {
             Integer delete = getBaseService().delete(t);
             if(delete > 0){
@@ -151,7 +151,7 @@ public abstract class CommonController<T> extends BaseController {
      * @param t
      * @return
      */
-    public ResultData update(@RequestBody T t){
+    public ResultData updateT(@RequestBody T t){
         try {
             Integer update = getBaseService().update(t);
             if(update > 0){
