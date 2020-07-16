@@ -25,7 +25,7 @@ public abstract class CommonController<T> extends BaseController {
      * 钩子函数，在新增之前所执行的业务
      * @param map
      */
-    protected void beforeAdd(Map map){
+    protected void beforeAdd(Object map){
         //TODO 钩子函数，在插入之前你需要执行的某些业务的时候进行调用
     }
 
@@ -33,7 +33,7 @@ public abstract class CommonController<T> extends BaseController {
      * 钩子函数，在新增之后所执行的业务
      * @param map
      */
-    protected void afterAdd(Map map){
+    protected void afterAdd(Object map){
         //TODO 钩子函数，在插入之后你需要执行的某些业务的时候进行调用
     }
 
@@ -58,6 +58,25 @@ public abstract class CommonController<T> extends BaseController {
     }
 
     /**
+     * 添加操作，通过实体类
+     * @param t
+     * @return
+     */
+    public ResultData add(@RequestBody T t){
+        beforeAdd(t);
+        try {
+            Integer add = getBaseService().add(t);
+            if(add > 0){
+                afterAdd(t);
+                return addSuccess(add);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return addFailed();
+    }
+
+    /**
      * 删除操作
      * @param map
      * @return
@@ -66,6 +85,23 @@ public abstract class CommonController<T> extends BaseController {
         T instance = getBaseService().newInstance(map);
         try {
             Integer delete = getBaseService().delete(instance);
+            if(delete > 0){
+                return deleteSuccess();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return deleteFailed();
+    }
+
+    /**
+     * 删除操作，通过实体类id
+     * @param t
+     * @return
+     */
+    public ResultData delete(@RequestBody T t){
+        try {
+            Integer delete = getBaseService().delete(t);
             if(delete > 0){
                 return deleteSuccess();
             }
@@ -102,6 +138,22 @@ public abstract class CommonController<T> extends BaseController {
         T instance = getBaseService().newInstance(map);
         try {
             Integer update = getBaseService().update(instance);
+            if(update > 0){
+                return updateSuccess(update);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return updateFailed();
+    }
+    /**
+     * 更新数据,通过实体类
+     * @param t
+     * @return
+     */
+    public ResultData update(@RequestBody T t){
+        try {
+            Integer update = getBaseService().update(t);
             if(update > 0){
                 return updateSuccess(update);
             }
@@ -215,6 +267,40 @@ public abstract class CommonController<T> extends BaseController {
         T instance = getBaseService().newInstance(map);
         try {
             PageInfo<T> tPageInfo = getBaseService().selectListByPage(instance, pageNum, pageSize);
+            if(tPageInfo != null && !tPageInfo.equals("")){
+                return querySuccess(tPageInfo);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return queryFailed();
+    }
+
+    /**
+     * 对象的分页查询
+     * @param t
+     * @return
+     */
+    public ResultData selectListByPage(@RequestBody T t, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize")Integer pageSize,@RequestParam("String[]") String... fileds){
+        try {
+            PageInfo<T> tPageInfo = getBaseService().selectListByPageAndFiled(pageNum,pageSize,null,null,null,fileds);
+            if(tPageInfo != null && !tPageInfo.equals("")){
+                return querySuccess(tPageInfo);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return queryFailed();
+    }
+
+    /**
+     * 对象的分页查询
+     * @param t
+     * @return
+     */
+    public ResultData selectListByPage(@RequestBody T t, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize")Integer pageSize){
+        try {
+            PageInfo<T> tPageInfo = getBaseService().selectListByPage(t, pageNum, pageSize);
             if(tPageInfo != null && !tPageInfo.equals("")){
                 return querySuccess(tPageInfo);
             }
