@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="20200715-cehui-api" />
+        <module name="20200715-cehui-common" />
+        <module name="20200715-cehui-config" />
+        <module name="20200715-cehui-consumer-7081" />
+        <module name="20200715-cehui-eureka-6081" />
+        <module name="20200715-cehui-eureka-6082" />
+        <module name="20200715-cehui-eureka-6083" />
+        <module name="20200715-cehui-mapper" />
+        <module name="20200715-cehui-model" />
+        <module name="20200715-cehui-provider-8081" />
+        <module name="20200715-cehui-service" />
+        <module name="20200715-cehui-zuul-5081" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="20200715-cehui-api" target="1.8" />
+      <module name="20200715-cehui-common" target="1.8" />
+      <module name="20200715-cehui-config" target="1.8" />
+      <module name="20200715-cehui-consumer-7081" target="1.8" />
+      <module name="20200715-cehui-consumer-management" target="1.8" />
+      <module name="20200715-cehui-eureka-6081" target="1.8" />
+      <module name="20200715-cehui-eureka-6082" target="1.8" />
+      <module name="20200715-cehui-eureka-6083" target="1.8" />
+      <module name="20200715-cehui-eureka-management" target="1.8" />
+      <module name="20200715-cehui-management" target="1.8" />
+      <module name="20200715-cehui-mapper" target="1.8" />
+      <module name="20200715-cehui-model" target="1.8" />
+      <module name="20200715-cehui-provider-8081" target="1.8" />
+      <module name="20200715-cehui-provider-management" target="1.8" />
+      <module name="20200715-cehui-service" target="1.8" />
+      <module name="20200715-cehui-zuul-5081" target="1.8" />
+      <module name="qy-11010-20200715-cehui" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

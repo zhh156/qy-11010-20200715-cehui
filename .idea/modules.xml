@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-management/20200715-cehui-api/20200715-cehui-api.iml" filepath="$PROJECT_DIR$/20200715-cehui-management/20200715-cehui-api/20200715-cehui-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-common/20200715-cehui-common.iml" filepath="$PROJECT_DIR$/20200715-cehui-common/20200715-cehui-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-config/20200715-cehui-config.iml" filepath="$PROJECT_DIR$/20200715-cehui-config/20200715-cehui-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-consumer-management/20200715-cehui-consumer-7081/20200715-cehui-consumer-7081.iml" filepath="$PROJECT_DIR$/20200715-cehui-consumer-management/20200715-cehui-consumer-7081/20200715-cehui-consumer-7081.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-consumer-management/20200715-cehui-consumer-management.iml" filepath="$PROJECT_DIR$/20200715-cehui-consumer-management/20200715-cehui-consumer-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-eureka-management/20200715-cehui-eureka-6081/20200715-cehui-eureka-6081.iml" filepath="$PROJECT_DIR$/20200715-cehui-eureka-management/20200715-cehui-eureka-6081/20200715-cehui-eureka-6081.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-eureka-management/20200715-cehui-eureka-6082/20200715-cehui-eureka-6082.iml" filepath="$PROJECT_DIR$/20200715-cehui-eureka-management/20200715-cehui-eureka-6082/20200715-cehui-eureka-6082.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-eureka-management/20200715-cehui-eureka-6083/20200715-cehui-eureka-6083.iml" filepath="$PROJECT_DIR$/20200715-cehui-eureka-management/20200715-cehui-eureka-6083/20200715-cehui-eureka-6083.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-eureka-management/20200715-cehui-eureka-management.iml" filepath="$PROJECT_DIR$/20200715-cehui-eureka-management/20200715-cehui-eureka-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-management/20200715-cehui-management.iml" filepath="$PROJECT_DIR$/20200715-cehui-management/20200715-cehui-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-management/20200715-cehui-mapper/20200715-cehui-mapper.iml" filepath="$PROJECT_DIR$/20200715-cehui-management/20200715-cehui-mapper/20200715-cehui-mapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-management/20200715-cehui-model/20200715-cehui-model.iml" filepath="$PROJECT_DIR$/20200715-cehui-management/20200715-cehui-model/20200715-cehui-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-provider-management/20200715-cehui-provider-8081/20200715-cehui-provider-8081.iml" filepath="$PROJECT_DIR$/20200715-cehui-provider-management/20200715-cehui-provider-8081/20200715-cehui-provider-8081.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-provider-management/20200715-cehui-provider-management.iml" filepath="$PROJECT_DIR$/20200715-cehui-provider-management/20200715-cehui-provider-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-management/20200715-cehui-service/20200715-cehui-service.iml" filepath="$PROJECT_DIR$/20200715-cehui-management/20200715-cehui-service/20200715-cehui-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/20200715-cehui-zuul-5081/20200715-cehui-zuul-5081.iml" filepath="$PROJECT_DIR$/20200715-cehui-zuul-5081/20200715-cehui-zuul-5081.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qy-11010-20200715-cehui.iml" filepath="$PROJECT_DIR$/qy-11010-20200715-cehui.iml" />
+    </modules>
+  </component>
+</project>
