@@ -1,5 +1,6 @@
 package com.aaa.service;
 
+import com.aaa.model.FtpFile;
 import com.aaa.properties.FtpProperties;
 import com.aaa.utils.DateUtils;
 import com.aaa.utils.FileNameUtils;
@@ -33,48 +34,71 @@ public class UploadService {
      * @param file
      * @return java.lang.Boolean
      **/
-    public Boolean upload(MultipartFile file){
+    public FtpFile upload(MultipartFile file){
+        FtpFile  ftpFile = new FtpFile();
         //1.获取文件的远程名称（为了获取后缀名）
         String oldFileName = file.getOriginalFilename();
         //2.生成新的文件名
         String newFileName = FileNameUtils.getFileName();
+        //3.获取文件的后缀名
+        String extName = null;
+        if (oldFileName != null) {
+            extName = oldFileName.substring(oldFileName.lastIndexOf(POINT));
+        }
+        //4.将文件的后缀名添加到新的文件名上
+        newFileName = newFileName + extName;
+        //5.获取文件的上传路径（2020/07/10）
+        String filePath = DateUtils.formatDate(new Date(),DATE_FORMAT);
+        //6.调用文件上传工具类
+        try {
+            Boolean upload = FtpUtils.upload(ftpProperties.getHost(), ftpProperties.getPort(), ftpProperties.getUsername(), ftpProperties.getPassword(), ftpProperties.getBasePath(),
+                    filePath, newFileName, file.getInputStream());
+            //7.判断上传是否成功
+            if(upload){
+                //成功
+                return ftpFile.setFileName(newFileName).setDir(extName).setFilePath(ftpProperties.getBasePath()+filePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @author Zhao.Hhuan
+     * @date 2020/7/17 15:21
+     * @description:
+     *      上传文件，自定义文件名
+     * @param file
+	 * @param newFileName
+     * @return FtpFile
+     **/
+    public FtpFile upload(MultipartFile file, String newFileName){
+        FtpFile  ftpFile = new FtpFile();
+        //1.获取文件的远程名称（为了获取后缀名）
+        String oldFileName = file.getOriginalFilename();
+        //2.判断前端的文件名是否传过来
+        if(newFileName == null){
+            newFileName = FileNameUtils.getFileName();
+        }
         //3.截取后缀名，拼接到新的文件名上
         newFileName = newFileName + oldFileName.substring(oldFileName.lastIndexOf(POINT));
         //4.获取文件的上传路径（2020/07/10）
         String filePath = DateUtils.formatDate(new Date(),DATE_FORMAT);
         //5.调用文件上传工具类
         try {
-            return FtpUtils.upload(ftpProperties.getHost(),ftpProperties.getPort(),ftpProperties.getUsername(),ftpProperties.getPassword(),ftpProperties.getBasePath(),
-                    filePath,newFileName,file.getInputStream());
+            //6.上传文件
+            Boolean upload = FtpUtils.upload(ftpProperties.getHost(), ftpProperties.getPort(), ftpProperties.getUsername(), ftpProperties.getPassword(), ftpProperties.getBasePath(),
+                    filePath, newFileName, file.getInputStream());
+            //7.判断上传是否成功
+            if(upload){
+                //成功
+                return ftpFile.setFilePath(filePath).setDir(oldFileName.substring(oldFileName.lastIndexOf(POINT))).setFileName(newFileName);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
-    }
-    /**
-     * @author Zhao.Hhuan
-     * @date 2020/7/14 11:01
-     * @description:
-     *      上传文件，指定上传之后的文件名，自动生成文件夹
-     * @param file
-	 * @param newFileName 指定的文件名
-     * @return java.lang.Boolean
-     **/
-    public Boolean upload(MultipartFile file,String newFileName){
-        //1.获取文件的远程名称（为了获取后缀名）
-        String oldFileName = file.getOriginalFilename();
-        //2.截取后缀名，拼接到新的文件名上
-        newFileName = newFileName + oldFileName.substring(oldFileName.lastIndexOf(POINT));
-        //3.获取文件的上传路径（2020/07/10）
-        String filePath = DateUtils.formatDate(new Date(),DATE_FORMAT);
-        //4.调用文件上传工具类
-        try {
-            return FtpUtils.upload(ftpProperties.getHost(),ftpProperties.getPort(),ftpProperties.getUsername(),ftpProperties.getPassword(),ftpProperties.getBasePath(),
-                    filePath,newFileName,file.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return null;
     }
     /**
      * @author Zhao.Hhuan
@@ -86,18 +110,26 @@ public class UploadService {
 	 * @param filePath 指定存储文件的路径
      * @return java.lang.Boolean
      **/
-    public Boolean upload(MultipartFile file,String newFileName,String filePath){
+    public FtpFile upload(MultipartFile file,String newFileName,String filePath){
+        FtpFile ftpFile = new FtpFile();
         //1.获取文件的远程名称（为了获取后缀名）
         String oldFileName = file.getOriginalFilename();
-        //2.截取后缀名，拼接到新的文件名上
-        newFileName = newFileName + oldFileName.substring(oldFileName.lastIndexOf(POINT));
-        //3.调用文件上传工具类
+        //2.获取到文件的后缀名
+        String extName = oldFileName.substring(oldFileName.lastIndexOf(POINT));
+        //3.将后缀名拼接到新的文件名上
+        newFileName = newFileName + extName;
+        //4.调用文件上传工具类
         try {
-            return FtpUtils.upload(ftpProperties.getHost(),ftpProperties.getPort(),ftpProperties.getUsername(),ftpProperties.getPassword(),ftpProperties.getBasePath(),
-                    filePath,newFileName,file.getInputStream());
+            Boolean upload = FtpUtils.upload(ftpProperties.getHost(), ftpProperties.getPort(), ftpProperties.getUsername(), ftpProperties.getPassword(), ftpProperties.getBasePath(),
+                    filePath, newFileName, file.getInputStream());
+            //5.判断上传是否成功
+            if(upload){
+                //成功
+                return ftpFile.setFilePath(filePath).setDir(extName).setFileName(newFileName);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 }

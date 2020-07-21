@@ -14,4 +14,16 @@
     <result column="modify_time" property="modifyTime" jdbcType="DATE" />
     <result column="memo" property="memo" jdbcType="VARCHAR" />
   </resultMap>
+  <select id="queryCheckPersonByPercentage" resultType="map">
+    select @rownum:= @rownum + 1, t_check_person.*  from (select @rownum := 0) row, t_check_person
+    <trim prefix="where" suffixOverrides="and">
+      <if test="percentage !=null">
+        @rownum &lt; (select round(count(1) * #{percentage}) from t_check_person) and
+      </if>
+    </trim>
+    order by rand()
+  </select>
+  <select id="queryLastId" resultMap="BaseResultMap">
+    select * from t_check_person order by id desc limit 1
+  </select>
 </mapper>

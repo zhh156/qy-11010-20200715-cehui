@@ -20,4 +20,12 @@
     <result column="create_time" property="createTime" jdbcType="DATE" />
     <result column="modify_time" property="modifyTime" jdbcType="DATE" />
   </resultMap>
+  <select id="queryEquipmentByUserId" resultType="map">
+    select * from t_equipment e left join t_resource r on e.id=r.ref_biz_id
+    <trim prefix="where">
+      <if test="userId != null and userId != ''">
+        e.user_id=#{userId}
+      </if>
+    </trim>
+  </select>
 </mapper>

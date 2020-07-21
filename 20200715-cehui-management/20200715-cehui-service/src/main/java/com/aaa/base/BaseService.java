@@ -77,7 +77,7 @@ public abstract class BaseService<T> {
      * @param ids
      * @return
      */
-    public Integer batchDelete(List<Integer> ids){
+    public Integer batchDelete(List ids){
         /**
          * delete from user(getTypeArgument()) where 1=1(Sqls.custom()-自定义的条件) and id in (1,2,3)
          * andIn("id",ids)-id为数据表的主键名称，ids为包含的id列表

@@ -62,7 +62,7 @@ public abstract class CommonController<T> extends BaseController {
      * @param t
      * @return
      */
-    public ResultData add(@RequestBody T t){
+    public ResultData addT(@RequestBody T t){
         beforeAdd(t);
         try {
             Integer add = getBaseService().add(t);
@@ -120,6 +120,22 @@ public abstract class CommonController<T> extends BaseController {
         List instance = (List)getBaseService().newInstance(map);
         try {
             Integer delete = getBaseService().batchDelete(instance);
+            if(delete > 0){
+                return deleteSuccess(delete);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return deleteFailed();
+    }
+    /**
+     * 通过主键批量删除
+     * @param ids
+     * @return
+     */
+    public ResultData batchDeleteT(List ids){
+        try {
+            Integer delete = getBaseService().batchDelete(ids);
             if(delete > 0){
                 return deleteSuccess(delete);
             }
@@ -199,6 +215,24 @@ public abstract class CommonController<T> extends BaseController {
         }
         return queryFailed();
     }
+
+    /**
+     * 查询一条数据，通过实体类
+     * @param t
+     * @return
+     */
+    public ResultData selectOneT(@RequestBody T t){
+        try {
+            T t1 = getBaseService().selectOne(t);
+            if(t1 != null && !t.equals("")){
+                return querySuccess(t1);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return queryFailed();
+    }
+
     /**
      * 查询一条数据中的某些字段
      * @param sqls

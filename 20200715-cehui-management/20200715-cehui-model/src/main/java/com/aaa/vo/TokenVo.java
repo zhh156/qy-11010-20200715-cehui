@@ -29,4 +29,16 @@ public class TokenVo implements Serializable {
      * 4.系统异常
      */
     private Integer type;
+    /**
+     * 操作的参数
+     * 1.用户不存在
+     * 2.用户已经存在
+     * 3.文件上传失败
+     *
+     */
+    private Integer operation;
+    /**
+     * 需要传的数据
+     */
+    private Object Data;
 }

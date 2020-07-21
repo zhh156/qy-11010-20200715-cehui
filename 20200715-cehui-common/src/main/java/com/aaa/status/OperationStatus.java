@@ -11,7 +11,8 @@ public enum OperationStatus {
     UPDATE_SUCCESS("10030","更新成功"),
     UPDATE_FAILED("10031","更新失败"),
     DELETE_SUCCESS("10040","删除成功"),
-    DELETE_FAILED("10041","删除失败");
+    DELETE_FAILED("10041","删除失败"),
+    OPERATION_WRONG("10042","系统异常");
 
     OperationStatus(String code,String msg){
         this.code = code;

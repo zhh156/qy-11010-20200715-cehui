@@ -59,4 +59,57 @@
     <result column="unit_intro" property="unitIntro" jdbcType="LONGVARCHAR" />
     <result column="coordinate" property="coordinate" jdbcType="LONGVARCHAR" />
   </resultMap>
+  <select id="queryMappingUnitByUnitName" resultMap="BaseResultMap">
+    select * from t_mapping_unit
+    <trim prefix="where" suffixOverrides="and">
+      <if test="unitName != null and unitName != ''">
+        unit_name like "%"#{unitName}"%" and
+      </if>
+    </trim>
+  </select>
+  <select id="queryMappingUnitByAuditStatusAndNoCertificate" resultMap="BaseResultMap">
+    SELECT * FROM `t_mapping_unit` where audit_status=2 and certificate_code is null
+    <trim prefix="where" suffixOverrides="and">
+      <if test="unitName != null and unitName != ''">
+        unit_name like "%"#{unitName}"%" and
+      </if>
+    </trim>
+  </select>
+  <update id="updateOfAudit">
+    update t_mapping_unit
+    <trim prefix="set">
+      <if test="auditStatus != null">audit_status=#{auditStatus},</if>
+    </trim>
+    modify_time=#{modifyTime} where user_id=#{userId}
+  </update>
+  <select id="queryMappingUnitByAuditStatusAndCertificate" resultMap="BaseResultMap">
+    SELECT * FROM `t_mapping_unit` where audit_status=2 and certificate_code is not null
+    <trim prefix="where" suffixOverrides="and">
+      <if test="unitName != null and unitName != ''">
+        unit_name like "%"#{unitName}"%" and
+      </if>
+    </trim>
+  </select>
+  <select id="queryMappingUnitByAuditStatusByUnitName" resultMap="BaseResultMap">
+    SELECT * FROM `t_mapping_unit` where audit_status=2
+    and unit_name like concat('%'#{unitName}'%')
+  </select>
+  <select id="queryMappingUnitByPercentage" resultType="map">
+    select @rownum:= @rownum + 1, t_mapping_unit.*  from (select @rownum := 0) row, t_mapping_unit
+    <trim prefix="where" suffixOverrides="and">
+      <if test="percentage !=null">
+        @rownum &lt; (select round(count(1) * #{percentage}) from t_mapping_unit) and
+      </if>
+      <choose>
+      <when test="ownedDistrict !=null and ownedDistrict !='全部单位' and ownedDistrict != '外地单位' and  ownedDistrict !=''">
+        owned_district = #{ownedDistrict} and
+      </when>
+      <when test="ownedDistrict == '外地单位'">
+        owned_district != '江城区' and owned_district != '阳春市' and owned_district != '阳东区' and
+        owned_district != '阳西县' and
+      </when>
+      </choose>
+    </trim>
+    order by rand()
+  </select>
 </mapper>

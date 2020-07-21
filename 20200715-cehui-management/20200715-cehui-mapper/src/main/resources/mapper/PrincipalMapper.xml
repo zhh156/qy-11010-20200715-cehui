@@ -21,4 +21,12 @@
     <result column="create_time" property="createTime" jdbcType="DATE" />
     <result column="modify_time" property="modifyTime" jdbcType="DATE" />
   </resultMap>
+  <select id="queryPrincipalByUserId" resultType="map">
+    select * from t_principal p left join t_resource r on p.id=r.ref_biz_id
+    <trim prefix="where">
+      <if test="userId != null and userId != ''">
+        p.user_id=#{userId}
+      </if>
+    </trim>
+  </select>
 </mapper>

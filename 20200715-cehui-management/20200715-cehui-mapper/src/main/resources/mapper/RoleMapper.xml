@@ -11,4 +11,27 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
     <result column="MODIFY_TIME" property="modifyTime" jdbcType="DATE" />
   </resultMap>
+  <select id="queryRolesByRoleNameOrCreateTime" resultMap="BaseResultMap">
+    select  *  from t_role
+    <trim prefix="where" suffixOverrides="and">
+      <if test="roleName != null and roleName != ''">
+        role_name like "%"#{roleName}"%" and
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+        create_time BETWEEN  #{startTime} and  #{endTime}
+      </if>
+    </trim>
+  </select>
+  <select id="selectOneRoleMenu" resultType="map">
+    select r.*,m.* from t_role r left join t_role_menu rm on r.ROLE_ID=rm.ROLE_ID left join t_menu m on rm.MENU_ID=m.MENU_ID
+      <if test="#{roleId != null and roleId != ''} ">
+        where r.ROLE_ID=#{roleId}
+      </if>
+  </select>
+  <select id="getAddRoleId" resultType="java.lang.Integer">
+    select ROLE_ID from t_role order by ROLE_ID desc limit 1
+  </select>
+  <insert id="insertRole" useGeneratedKeys="true" keyProperty="roleId" keyColumn="ROLE_ID">
+      insert into t_role (ROLE_NAME,REMARK,CREATE_TIME) VALUES (#{roleName},#{remark},#{createTime})
+  </insert>
 </mapper>

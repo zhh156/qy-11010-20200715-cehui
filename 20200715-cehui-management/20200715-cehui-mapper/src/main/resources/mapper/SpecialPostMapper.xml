@@ -20,4 +20,12 @@
     <result column="create_time" property="createTime" jdbcType="DATE" />
     <result column="modify_time" property="modifyTime" jdbcType="DATE" />
   </resultMap>
+  <select id="querySpecialPostByUserId" resultType="map">
+    select * from t_special_post sp left join t_resource r on sp.id=r.ref_biz_id
+    <trim prefix="where">
+      <if test="userId != null and userId != ''">
+        sp.user_id=#{userId}
+      </if>
+    </trim>
+  </select>
 </mapper>

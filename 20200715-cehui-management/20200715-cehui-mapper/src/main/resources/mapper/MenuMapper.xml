@@ -17,4 +17,21 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
     <result column="MODIFY_TIME" property="modifyTime" jdbcType="DATE" />
   </resultMap>
+  <select id="queryOne" resultMap="BaseResultMap">
+    SELECT * FROM `t_menu` where PARENT_ID=0
+  </select>
+  <select id="queryTwoOrThree" resultMap="BaseResultMap">
+    SELECT * FROM `t_menu` where PARENT_ID=#{menuId}
+  </select>
+  <select id="queryMenusByMenuNameOrCreateTime" resultMap="BaseResultMap">
+    select  *  from t_menu
+    <trim prefix="where" suffixOverrides="and">
+      <if test="menuName != null and menuName != ''">
+        MENU_NAME like "%"#{menuName}"%" and
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+        CREATE_TIME BETWEEN  #{startTime} and  #{endTime}
+      </if>
+    </trim>
+  </select>
 </mapper>

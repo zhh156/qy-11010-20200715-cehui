@@ -14,4 +14,10 @@
     <result column="create_time" property="createTime" jdbcType="DATE" />
     <result column="modify_time" property="modifyTime" jdbcType="DATE" />
   </resultMap>
+
+  <select id="queryAllScoreById" resultType="map">
+    select s.*,r.* from  t_score s
+    left join t_resource r on s.unit_id=r.ref_biz_id
+    where r.ref_biz_id=#{id} and r.ref_biz_type='附件'
+  </select>
 </mapper>
