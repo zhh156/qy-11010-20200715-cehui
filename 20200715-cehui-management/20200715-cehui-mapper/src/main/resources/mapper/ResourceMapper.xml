@@ -17,4 +17,12 @@
     <result column="modify_time" property="modifyTime" jdbcType="DATE" />
     <result column="memo" property="memo" jdbcType="VARCHAR" />
   </resultMap>
+  <delete id="deleteResourceByRefBizId">
+    delete from t_resource where ref_biz_id=#{refBizId}
+    <trim prefix="and">
+      <if test="refBizType != null and refBizType != ''">
+        ref_biz_type=#{refBizType}
+      </if>
+    </trim>
+  </delete>
 </mapper>

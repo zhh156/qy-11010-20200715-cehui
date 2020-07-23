@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * @Company AAA软件教育
  * @Author Zhao.Hhuan
@@ -92,7 +94,7 @@ public class MappingUintController extends CommonController<MappingUnit> {
      * @param operationType 增加(1)/减少(2)
      * @param file 上传的附件
      * @param scoreChange 改变的分值
-     * @param reason  分值变化的原因
+     * @param reason  分值变化的原因0
      * @return com.aaa.base.ResultData
      **/
     @PostMapping("/insertScoreById")
@@ -198,25 +200,6 @@ public class MappingUintController extends CommonController<MappingUnit> {
         return queryFailed();
     }
 
-
-    /**
-     * @author Zhao.Hhuan
-     * @date 2020/7/18 9:31
-     * @description:
-     *      在单位表中通过unit_name来模糊查询audit_status为2（已提交）的单位
-     * @param pageNum 当前页数
-	 * @param pageSize 每页条数
-	 * @param unitName 需要模糊查询的字段
-     * @return com.aaa.base.ResultData
-     **/
-    @GetMapping("/queryMappingUnitByAuditStatusByUnitName")
-    public ResultData queryMappingUnitByAuditStatusByUnitName(@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize")Integer pageSize,@RequestParam("unitName")String unitName){
-        PageInfo<MappingUnit> pageInfo = mappingUnitService.queryMappingUnitByAuditStatusByUnitName(pageNum, pageSize, unitName);
-        if(pageInfo != null ){
-            return querySuccess(pageInfo);
-        }
-        return queryFailed();
-    }
     /**
      * @author Zhao.Hhuan
      * @date 2020/7/18 15:55
@@ -248,12 +231,30 @@ public class MappingUintController extends CommonController<MappingUnit> {
      **/
     @PostMapping("/updateMappingUnitByUserId")
     public ResultData updateMappingUnitByUserId(@RequestBody MappingUnit mappingUnit){
-        System.out.println(mappingUnit.getId());
         TokenVo tokenVo = mappingUnitService.updateMappingUnitByUserId(mappingUnit);
         if(tokenVo.getIsSuccess()){
             return addSuccess("修改数据提交成功");
         }
         return addFailed("修改数据提交失败");
+    }
+
+    /**
+     * @author Zhao.Hhuan
+     * @date 2020/7/22 20:29
+     * @description:
+     *          系统主页中的测绘单位查询
+     * @param unitName 单位名称（模糊查询）
+	 * @param ownedDistrict 单位地域
+	 * @param qualificationLevel 单位资质
+     * @return com.aaa.base.ResultData
+     **/
+    @GetMapping("/queryMappingUnitMain")
+    public ResultData queryMappingUnitMain(@RequestParam("unitName") String unitName,@RequestParam("ownedDistrict") String ownedDistrict,@RequestParam("qualificationLevel") String qualificationLevel){
+        List<MappingUnit> mappingUnits = mappingUnitService.queryMappingUnitMain(unitName, ownedDistrict, qualificationLevel);
+        if(mappingUnits != null){
+            return querySuccess(mappingUnits);
+        }
+        return queryFailed();
     }
 
 }

@@ -69,9 +69,9 @@
   </select>
   <select id="queryMappingUnitByAuditStatusAndNoCertificate" resultMap="BaseResultMap">
     SELECT * FROM `t_mapping_unit` where audit_status=2 and certificate_code is null
-    <trim prefix="where" suffixOverrides="and">
+    <trim prefix="and">
       <if test="unitName != null and unitName != ''">
-        unit_name like "%"#{unitName}"%" and
+        unit_name like "%"#{unitName}"%"
       </if>
     </trim>
   </select>
@@ -84,15 +84,11 @@
   </update>
   <select id="queryMappingUnitByAuditStatusAndCertificate" resultMap="BaseResultMap">
     SELECT * FROM `t_mapping_unit` where audit_status=2 and certificate_code is not null
-    <trim prefix="where" suffixOverrides="and">
+    <trim prefix="and">
       <if test="unitName != null and unitName != ''">
-        unit_name like "%"#{unitName}"%" and
+        unit_name like "%"#{unitName}"%"
       </if>
     </trim>
-  </select>
-  <select id="queryMappingUnitByAuditStatusByUnitName" resultMap="BaseResultMap">
-    SELECT * FROM `t_mapping_unit` where audit_status=2
-    and unit_name like concat('%'#{unitName}'%')
   </select>
   <select id="queryMappingUnitByPercentage" resultType="map">
     select @rownum:= @rownum + 1, t_mapping_unit.*  from (select @rownum := 0) row, t_mapping_unit
@@ -111,5 +107,19 @@
       </choose>
     </trim>
     order by rand()
+  </select>
+  <select id="queryMappingUnitMain" resultMap="BaseResultMap">
+    SELECT * FROM `t_mapping_unit`
+    <trim prefix="where" suffixOverrides="and">
+      <if test="unitName != null and unitName != ''">
+        unit_name like "%"#{unitName}"%" and
+      </if>
+      <if test="ownedDistrict != null and ownedDistrict != ''">
+        owned_district=#{ownedDistrict} and
+      </if>
+      <if test="qualificationLevel != null and qualificationLevel != ''">
+        qualification_level=#{qualificationLevel}
+      </if>
+    </trim>
   </select>
 </mapper>

@@ -111,7 +111,7 @@ public interface IProjectService {
                                       @RequestParam("reason")String reason);
 
     @GetMapping("/queryAllAuditByUserId")
-    ResultData queryAllAuditByUserId(@RequestParam("userId") Object userId,@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize") Integer pageSize);
+    ResultData queryAllAuditByUserId(@RequestParam("userId") Long userId,@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize") Integer pageSize);
 
     @GetMapping("/queryMappingUnitByAuditStatusAndNoCertificate")
     ResultData queryMappingUnitByAuditStatusAndNoCertificate(@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize")Integer pageSize,@RequestParam("unitName")String unitName);
@@ -119,16 +119,9 @@ public interface IProjectService {
     @GetMapping("/queryMappingUnitByAuditStatusAndNoCertificate")
     ResultData queryMappingUnitByAuditStatusAndCertificate(@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize")Integer pageSize,@RequestParam("unitName")String unitName);
 
-    @GetMapping("/queryMappingUnitByAuditStatusByUnitName")
-    ResultData queryMappingUnitByAuditStatusByUnitName(@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize")Integer pageSize,@RequestParam("unitName")String unitName);
-
-    @PostMapping("/updateAuditByRefId")
-    ResultData updateAuditByRefId(@RequestBody Map map);
-
     @GetMapping("/queryMappingUnitByPercentage")
     ResultData queryMappingUnitByPercentage(@RequestParam("percentage")Double percentage,@RequestParam("ownedDistrict")String ownedDistrict,
                                                    @RequestParam("pageNum")Integer pageNum,@RequestParam("pageSize")Integer pageSize);
-
     @GetMapping("/queryCheckPersonByPercentage")
     ResultData queryCheckPersonByPercentage(@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize") Integer pageSize,@RequestParam("percentage") Double percentage);
 
@@ -143,4 +136,37 @@ public interface IProjectService {
 
     @GetMapping("/updateAuditByUserId")
     ResultData updateAuditByUserId(@RequestParam("userId") Long userId,@RequestParam("status") Integer status,@RequestParam("memo")String memo);
+
+    @PostMapping("/submitAuditOfMappingUnit")
+    ResultData submitAuditOfMappingUnit(@RequestBody MappingUnit mappingUnit);
+
+    @PostMapping("/insertPrincipalByUserId")
+    ResultData insertPrincipalByUserId(@RequestParam("type") String type, @RequestParam("name") String name, @RequestParam("idType") String idType, @RequestParam("idNumber") String idNumber,
+                                              @RequestParam("age")Integer age, @RequestParam("sex") Integer sex, @RequestParam("workYear") Integer workYear, @RequestParam("duty") String duty,
+                                              @RequestParam("title")String title, @RequestParam("mappingYear") Integer mappingYear, @RequestParam("major") String major, @RequestParam("userId") Long userId,
+                                              @RequestBody MultipartFile[] file);
+
+    @PostMapping("/updatePrincipalById")
+    ResultData updatePrincipalById(@RequestParam("type") String type, @RequestParam("name") String name, @RequestParam("idType") String idType, @RequestParam("idNumber") String idNumber,
+                                          @RequestParam("age")Integer age, @RequestParam("sex") Integer sex, @RequestParam("workYear") Integer workYear, @RequestParam("duty") String duty,
+                                          @RequestParam("title")String title, @RequestParam("mappingYear") Integer mappingYear, @RequestParam("major") String major, @RequestParam("userId") Long userId,
+                                          @RequestParam("file")MultipartFile file,@RequestParam("id")Long id);
+
+    @GetMapping("/deletePrincipalById")
+    ResultData deletePrincipalById(@RequestParam("id") Long id,@RequestParam("userId")Long userId);
+
+    @PostMapping("/insertTechnicistByUserId")
+    ResultData insertTechnicistByUserId(@RequestBody Technicist technicist);
+
+    @PostMapping("/updateTechnicist")
+    ResultData updateTechnicist(@RequestBody Technicist technicist);
+
+    @PostMapping("/deleteTechnicist")
+    ResultData deleteTechnicist(@RequestBody Technicist technicist);
+
+    @PostMapping("/insertEquipmentByUserId")
+    ResultData insertEquipmentByUserId(@RequestBody Equipment equipment,@RequestBody List<MultipartFile> file);
+
+    @GetMapping("/queryMappingUnitMain")
+    ResultData queryMappingUnitMain(@RequestParam("unitName") String unitName,@RequestParam("ownedDistrict") String ownedDistrict,@RequestParam("qualificationLevel") String qualificationLevel);
 }

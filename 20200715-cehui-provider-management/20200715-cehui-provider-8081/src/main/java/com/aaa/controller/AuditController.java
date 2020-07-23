@@ -10,9 +10,7 @@ import com.aaa.service.MappingUnitService;
 import com.aaa.vo.TokenVo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.Map;
@@ -44,7 +42,7 @@ public class AuditController extends CommonController<Audit> {
      * @return com.aaa.base.ResultData
      **/
     @GetMapping("/queryAllAuditByUserId")
-    public ResultData queryAllAuditByUserId(@RequestParam("userId") Object userId,@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize") Integer pageSize){
+    public ResultData queryAllAuditByUserId(@RequestParam("userId") Long userId,@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize") Integer pageSize){
         PageInfo<Map> pageInfo = auditService.queryAllAuditByUserId(userId, pageNum, pageSize);
         if(pageInfo != null){
             return querySuccess(pageInfo);
@@ -86,5 +84,22 @@ public class AuditController extends CommonController<Audit> {
             }
         }
         return updateFailed();
+    }
+    /**
+     * @author Zhao.Hhuan
+     * @date 2020/7/21 11:13
+     * @description:
+     *      对单位的各种信息更改之后提交审核
+     * @param mappingUnit
+     * @return com.aaa.base.ResultData
+     **/
+    @PostMapping("/submitAuditOfMappingUnit")
+    public ResultData submitAuditOfMappingUnit(@RequestBody MappingUnit mappingUnit){
+        mappingUnit.setAuditStatus(2);
+        TokenVo tokenVo = mappingUnitService.updateMappingUnitByUserId(mappingUnit);
+        if(tokenVo != null){
+            return updateSuccess(tokenVo);
+        }
+        return updateFailed("提交审核失败");
     }
 }

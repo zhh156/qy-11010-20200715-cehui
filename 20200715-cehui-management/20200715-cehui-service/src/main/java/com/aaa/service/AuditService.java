@@ -35,13 +35,13 @@ public class AuditService extends BaseService<Audit> {
 	 * @param pageSize
      * @return com.github.pagehelper.PageInfo<java.util.Map>
      **/
-    public PageInfo<Map> queryAllAuditByUserId(Object userId,Integer pageNum,Integer pageSize){
+    public PageInfo<Map> queryAllAuditByUserId(Long userId,Integer pageNum,Integer pageSize){
         //1.判断前端的数据是否传到这里
-        if(userId != null && pageNum != null && pageSize != null){
+        if(pageNum != null && pageSize != null){
             //传过来了
             //2.进行查询操作
             PageHelper.startPage(pageNum,pageSize);
-            List<Map> maps = auditMapper.queryAllAuditByUserId((Long) userId);
+            List<Map> maps = auditMapper.queryAllAuditByUserId(userId);
             PageInfo<Map> pageInfo = new PageInfo<Map>(maps);
             //3.判断查询是否成功
             if(pageInfo.getSize() > 0){
@@ -78,5 +78,24 @@ public class AuditService extends BaseService<Audit> {
         }
         return tokenVo.setIsSuccess(false);
     }
-
+    /**
+     * @author Zhao.Hhuan
+     * @date 2020/7/21 15:13
+     * @description:
+     *      通过userId查询审核记录表中的某一条数据
+     * @param userId
+     * @return com.aaa.model.Audit
+     **/
+    public Audit queryAuditByUserId(Long userId){
+        //1.判断前端数据是否传入过来
+        if(userId != null){
+            //2.判断查询是否成功
+            Audit audit = auditMapper.queryAuditByUserId(userId);
+            if(audit != null){
+                //成功
+                return audit;
+            }
+        }
+        return null;
+    }
 }

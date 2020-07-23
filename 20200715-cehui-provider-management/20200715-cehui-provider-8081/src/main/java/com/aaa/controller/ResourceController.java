@@ -5,7 +5,6 @@ import com.aaa.base.CommonController;
 import com.aaa.base.ResultData;
 import com.aaa.model.Resource;
 import com.aaa.service.ResourceService;
-import com.aaa.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,8 +23,6 @@ import java.util.List;
 public class ResourceController extends CommonController<Resource> {
     @Autowired
     private ResourceService resourceService;
-    @Autowired
-    private UploadService uploadService;
 
     @Override
     public BaseService<Resource> getBaseService() {

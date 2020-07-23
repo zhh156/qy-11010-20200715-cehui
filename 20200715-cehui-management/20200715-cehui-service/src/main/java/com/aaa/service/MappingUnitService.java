@@ -1,19 +1,13 @@
 package com.aaa.service;
 
 import com.aaa.base.BaseService;
-import com.aaa.mapper.AuditMapper;
 import com.aaa.mapper.MappingUnitMapper;
-import com.aaa.mapper.PrincipalMapper;
-import com.aaa.model.Audit;
 import com.aaa.model.MappingUnit;
-import com.aaa.model.Principal;
-import com.aaa.utils.IDUtils;
 import com.aaa.vo.TokenVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
 import java.util.List;
@@ -30,10 +24,6 @@ import java.util.Map;
 public class MappingUnitService extends BaseService<MappingUnit> {
     @Autowired
     private MappingUnitMapper mappingUnitMapper;
-    @Autowired
-    private AuditMapper auditMapper;
-    @Autowired
-    private PrincipalMapper principalMapper;
 
     /**
      * @author Zhao.Hhuan
@@ -251,81 +241,47 @@ public class MappingUnitService extends BaseService<MappingUnit> {
         }
         return null;
     }
+
     /**
      * @author Zhao.Hhuan
-     * @date 2020/7/18 9:27
+     * @date 2020/7/22 19:03
      * @description:
-     *      在单位表中通过unit_name来模糊查询audit_status为2（已提交）的单位
-     * @param pageNum
-	 * @param pageSize
-	 * @param unitName
-     * @return com.github.pagehelper.PageInfo<com.aaa.model.MappingUnit>
+     *      通过userId对单位信息进行更改
+     * @param userId
+     * @return com.aaa.model.MappingUnit
      **/
-    public PageInfo<MappingUnit> queryMappingUnitByAuditStatusByUnitName(Integer pageNum,Integer pageSize,String unitName){
-        if(pageNum != null &&pageSize != null){
-            PageHelper.startPage(pageNum,pageSize);
-            List<MappingUnit> mappingUnits = mappingUnitMapper.queryMappingUnitByAuditStatusByUnitName(unitName);
-            if(mappingUnits != null){
-                PageInfo<MappingUnit> pageInfo = new PageInfo<>(mappingUnits);
-                return pageInfo;
+    public Integer updateMappingUnitByUserId(Long userId,MappingUnit mappingUnit){
+        MappingUnit mappingUnit1 = new MappingUnit();
+        if(userId != null){
+            //1.根据userId查询单位的信息
+            mappingUnit1 = super.selectOne(mappingUnit1.setUserId(userId));
+            //2.判断查询是否成功
+            if(mappingUnit1.getId() != null){
+                //成功
+                //3.更新单位的信息
+                Integer update = super.update(mappingUnit.setId(mappingUnit1.getId()));
+                //4.判断更新是否成功
+                if(update > 0){
+                    return update;
+                }
             }
         }
         return null;
     }
-
-
-
-
-    public Integer insertPrincipalByUserId(@RequestBody Principal principal){
-        //1.判断前端的数据是否传过来
-        if(principal.getUserId() != null){
-            //传过来了
-            //2.对新增的负责人添加创建时间、主键id
-            //2.1.添加时间
-            principal.setCreateTime(new Date());
-            //2.2.添加id
-            long id = Long.parseLong(IDUtils.getUUID());
-            Principal principal1 = principalMapper.selectByPrimaryKey(id);
-            //2.3.判断数据库中是否有相同的id
-            if(principal1 == null){
-                //不存在相同的
-                //3.进行判断审核是否通过。通过对数据库中的数据进行增加；如果没有通过，则返回审核不通过。
-                //TODO 未完成
-            }
-
-        }
-        return null;
-    }
-
     /**
      * @author Zhao.Hhuan
-     * @date 2020/7/18 10:45
+     * @date 2020/7/22 20:26
      * @description:
-     *      对数据进行审核
-     *     修改审核表中的数据，通过单位表中的id与审核表中的ref_id进行相关联
-     * @param map
-     * @return java.lang.Integer
+     *      主页系统中的测绘单位
+     * @param unitName
+	 * @param ownedDistrict
+	 * @param qualificationLevel
+     * @return com.aaa.vo.TokenVo
      **/
-    public Integer updateAuditByRefId(Map map){
-        Audit audit = new Audit();
-        //1.判断前端传来的refId是否为空
-        if(map.get("refId") != null){
-            //不为空
-            audit.setRefId((Long) map.get("refId"));
-            //2.判断前端传来的status是否为空
-            if(map.get("status") != null){
-                //3.将map中审核相关的值放入Audit中
-                audit.setStatus((Integer) map.get("status")).setSubmitTime(new Date());
-                if(map.get("memo") != null){
-                    audit.setMemo((String)map.get("memo"));
-                }
-                //4.进行修改操作
-                Integer integer = auditMapper.updateAuditByUserId(audit);
-                //5.判断修改操作是否成功
-                if(integer > 0){
-                    return integer;
-                }
-            }
+    public List<MappingUnit> queryMappingUnitMain(String unitName,String ownedDistrict,String qualificationLevel){
+        List<MappingUnit> mappingUnits = mappingUnitMapper.queryMappingUnitMain(unitName, ownedDistrict, qualificationLevel);
+        if(mappingUnits != null){
+            return mappingUnits;
         }
         return null;
     }

@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
-
 /**
  * @Company AAA软件教育
  * @Author Zhao.Hhuan
@@ -164,6 +162,8 @@ public class MappingUintController extends BaseController {
         return iProjectService.queryMappingUnitByPercentage(percentage,ownedDistrict,pageNum,pageSize);
     }
 
+
+    //TODO feign中无法实现文件的上传，需要添加东西将文件上传到provider上
     /**
      * @author Zhao.Hhuan
      * @date 2020/7/19 21:23
@@ -183,22 +183,6 @@ public class MappingUintController extends BaseController {
         return iProjectService.insertScoreById(unitId,operationType,file,scoreChange,reason);
     }
 
-
-    /**
-     * @author Zhao.Hhuan
-     * @date 2020/7/17 20:32
-     * @description:
-     *      查询某一个测绘单位的项目审核所有信息
-     * @param userId 测绘单位中的userId
-     * @param pageNum 当前页数
-     * @param pageSize  每页的条数
-     * @return com.aaa.base.ResultData
-     **/
-    @GetMapping("/queryAllAuditByUserId")
-    public ResultData queryAllAuditByUserId(@RequestParam("userId") Object userId,@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                   @RequestParam(name="pageSize",defaultValue =  "10")Integer pageSize){
-        return iProjectService.queryAllAuditByUserId(userId,pageNum,pageSize);
-    }
     /**
      * @author Zhao.Hhuan
      * @date 2020/7/20 19:39
@@ -230,49 +214,19 @@ public class MappingUintController extends BaseController {
                                                                     @RequestParam(name="pageSize",defaultValue =  "10")Integer pageSize,@RequestParam("unitName")String unitName){
         return iProjectService.queryMappingUnitByAuditStatusAndCertificate(pageNum,pageSize,unitName);
     }
-
     /**
      * @author Zhao.Hhuan
-     * @date 2020/7/18 9:31
+     * @date 2020/7/22 20:29
      * @description:
-     *      在单位表中通过unit_name来模糊查询audit_status为2（已提交）的单位
-     * @param pageNum 当前页数
-     * @param pageSize 每页条数
-     * @param unitName 需要模糊查询的字段
+     *          系统主页中的测绘单位查询
+     * @param unitName 单位名称（模糊查询）
+     * @param ownedDistrict 单位地域
+     * @param qualificationLevel 单位资质
      * @return com.aaa.base.ResultData
      **/
-    @GetMapping("/queryMappingUnitByAuditStatusByUnitName")
-    public ResultData queryMappingUnitByAuditStatusByUnitName(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                                              @RequestParam(name="pageSize",defaultValue =  "10")Integer pageSize,@RequestParam("unitName")String unitName){
-        return iProjectService.queryMappingUnitByAuditStatusByUnitName(pageNum,pageSize,unitName);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    //TODO 这里的单位审核在单位修改的数据提交后进行
-    /**
-     * @author Zhao.Hhuan
-     * @date 2020/7/18 10:48
-     * @description:
-     *      修改审核表中的数据，通过单位表中的id与审核表中的ref_id进行相关联
-     * @param map 从前端传来的数据，其中的key有：
-     *              refId：从单位表的id中拿出来的数据
-     *              status：审核的状态。0：通过，1：拒绝
-     *              memo：备注/审核意见
-     * @return com.aaa.base.ResultData
-     **/
-    @PostMapping("/updateAuditByRefId")
-    public ResultData updateAuditByRefId(@RequestBody Map map){
-        return iProjectService.updateAuditByRefId(map);
+    @GetMapping("/queryMappingUnitMain")
+    public ResultData queryMappingUnitMain(@RequestParam("unitName") String unitName,@RequestParam("ownedDistrict") String ownedDistrict,@RequestParam("qualificationLevel") String qualificationLevel){
+        return iProjectService.queryMappingUnitMain(unitName,ownedDistrict,qualificationLevel);
     }
 
 }

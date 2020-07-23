@@ -17,7 +17,12 @@
     <result column="create_time" property="createTime" jdbcType="DATE" />
   </resultMap>
   <select id="queryAllAuditByUserId" resultType="map">
-    select a.* from t_mapping_unit mu left join t_audit a on mu.user_id=a.user_id where mu.user_id=25 order by audit_time desc
+    select * from t_audit
+     <trim prefix="where">
+      <if test="userId != null and userId != ''">
+       user_id=#{userId}
+      </if>
+     </trim>
   </select>
   <update id="updateAuditByUserId">
     UPDATE t_audit
@@ -27,4 +32,7 @@
     </trim>
     submit_time = null,audit_time=#{auditTime} where user_id=#{userId} order by submit_time desc limit 1
   </update>
+  <select id="queryAuditByUserId" resultMap="BaseResultMap">
+    select * from t_audit where user_id=#{userId} order by submit_time desc limit 1
+  </select>
 </mapper>

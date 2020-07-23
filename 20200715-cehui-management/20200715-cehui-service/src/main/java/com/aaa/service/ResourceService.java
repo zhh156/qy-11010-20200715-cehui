@@ -107,4 +107,38 @@ public class ResourceService extends BaseService<Resource> {
         //系统发生错误
         return tokenVo.setIsSuccess(false).setType(4);
     }
+    /**
+     * @author Zhao.Hhuan
+     * @date 2020/7/21 15:58
+     * @description:
+     *      删除某一个资源
+     * @param refBizId
+	 * @param refBizType
+     * @return java.lang.Boolean
+     **/
+    public Boolean deleteResourceByRefBizId(Long refBizId,String refBizType){
+        //1.判断前端的数据是否传过来
+        if(refBizId != null){
+            //传过来了
+            Resource resource = new Resource();
+            resource.setRefBizId(refBizId).setRefBizType(refBizType);
+            //2.查询要删除的资源是否存在
+            Resource resource1 = super.selectOne(resource);
+            //3.判断是否存在
+            if(resource1 != null){
+                //存在
+                //4.进行删除操作
+                Integer integer = resourceMapper.deleteResourceByRefBizId(refBizId, refBizType);
+                //5.判断删除操作是否成功
+                if(integer > 0){
+                    return true;
+                }else {
+                    return false;
+                }
+            }else {
+                return true;
+            }
+        }
+        return false;
+    }
 }

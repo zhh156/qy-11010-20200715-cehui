@@ -10,10 +10,10 @@ import java.util.Map;
 public interface AuditMapper extends Mapper<Audit> {
     /**
      * 查询某个测绘单位的审核记录信息
-     * @param useId
+     * @param userId
      * @return
      */
-    List<Map> queryAllAuditByUserId(@Param("userId")Long useId);
+    List<Map> queryAllAuditByUserId(@Param("userId")Long userId);
 
     /**
      * 修改审核表中的数据(包括单位的全部信息)，将单位表中的user_id与审核表中的user_id
@@ -22,4 +22,10 @@ public interface AuditMapper extends Mapper<Audit> {
      * @return
      */
     Integer updateAuditByUserId(Audit audit);
+
+    /**
+     * 查询某个测绘单位的信息
+     * @return
+     */
+    Audit queryAuditByUserId(@Param("userId")Long userId);
 }
