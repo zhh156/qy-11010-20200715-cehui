@@ -165,4 +165,18 @@ public class MenuController extends CommonController<Menu> {
         }
         return deleteFailed();
     }
+
+    /**
+     *@Author tuo
+     *@Date 2020/7/21
+     * 根据用户查询信息
+     **/
+    @PostMapping("/queryInterface")
+    public ResultData queryInterface(@RequestParam("username")String username){
+        if (null != username && !"".equals(username)) {
+            List<Map> maps = menuService.queryInterface(username);
+            return super.querySuccess(maps);
+        }
+        return super.queryFailed();
+    }
 }

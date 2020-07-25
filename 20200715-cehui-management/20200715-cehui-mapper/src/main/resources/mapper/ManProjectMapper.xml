@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.aaa.mapper.MappingProjectMapper" >
-  <resultMap id="BaseResultMap" type="com.aaa.model.MappingProject" >
+<mapper namespace="com.aaa.mapper.ManProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.aaa.model.ManProject" >
     <!--
       WARNING - @mbg.generated
     -->
@@ -49,106 +49,21 @@
     <result column="contract_time" property="contractTime" jdbcType="VARCHAR" />
     <result column="coordinate" property="coordinate" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <select id="queryMappingProjectByUserId" resultMap="BaseResultMap">
-    SELECT * FROM `t_mapping_project` where user_id=#{userId}
-    <trim prefix="and">
-      <if test="projectName != null and projectName != ''">
-        project_name like "%"#{projectName}"%"
-      </if>
-    </trim>
+  <select id="selectAllPros" resultMap="BaseResultMap">
+   --Select id,project_type,project_name,project_leader,start_date,end_date,acceptance_department,project_amount,status  from t_mapping_project
+    select a.id,a.project_type,a.project_name,a.project_leader,a.start_date,a.end_date,
+    a.acceptance_department,a.project_amount,a.schedule,a.user_id  from t_mapping_project a
+    where a.user_id=#{userId,jdbcType=BIGINT}
   </select>
 
-  <select id="selectByMappingProjectAll"  resultType="map" >
-    select * from t_mapping_project
-    <where>
-      <if test="projectName != null and projectName != '' ">
-        AND project_name like '%${projectName, jdbcType=VARCHAR}%'
-      </if>
-    </where>
-  </select>
-  <select id="selectByMappingProjectOne"  resultType="map" >
-    select tm.*,tr.height_datum from t_mapping_project tm
-    join t_result_commit tr on tm.id = tr.ref_id where tm.id = #{id}
-  </select>
-  <select id="selectByShenHeId"  resultType="map" >
-    select t.user_id,tm.id,t.name,tm.status,tm.memo,t.submit_time,t.audit_time
-    from t_audit t join t_mapping_project tm on t.user_id=tm.user_id
-    where tm.id = #{id}
-  </select>
-  <select id="selectAllHuiJiao" resultMap="BaseResultMap" >
-    SELECT *
-    FROM t_mapping_project
-    <where>
-      <if test="projectName != null and projectName != '' ">
-        AND project_name like '%${projectName, jdbcType=VARCHAR}%'
-      </if>
-    </where>
-  </select>
-  <select id="selectAllHuiJiaoXiangQing" resultType="map" >
-    select tm.*,tr.* from t_mapping_project tm
-    join t_result_commit tr on tm.id = tr.ref_id
-    where tm.id = #{id}
-  </select>
-  <select id="selectChengGuoJiLu" resultType="map" >
-    select ta.id,ta.name,ta.status,ta.memo,ta.submit_time,ta.audit_time
-    from t_mapping_project tm ,t_audit ta where tm.id = ta.ref_id
-    and ta.type=4 and tm.id=#{id}
-  </select>
-  <select id="selectAllHuiJiaoShenHe" resultMap="BaseResultMap" >
-    SELECT *
-    FROM t_mapping_project
-    <where>
-      results_status=3
-      <if test="projectName != null and projectName != '' ">
-        AND project_name like '%${projectName, jdbcType=VARCHAR}%'
-      </if>
-    </where>
-  </select>
-  <select id="selectByMappingProjectShenHe"  resultType="map" >
-    select * from t_mapping_project
-    <where>
-      audit_status=3
-      <if test="projectName != null and projectName != '' ">
-        AND project_name like '%${projectName, jdbcType=VARCHAR}%'
-      </if>
-    </where>
+  <select id="selectByTypes" resultMap="BaseResultMap">
+     select a.id,a.project_type,a.project_name,a.project_leader,a.start_date,a.end_date,
+    a.acceptance_department,a.project_amount,a.schedule,a.user_id  from t_mapping_project a
+    where a.user_id=#{userId,jdbcType=BIGINT} and a.project_type=#{projectType,jdbcType=VARCHAR}
   </select>
 
-  <select id="selectCeHuiChengHuo" resultType="map">
-    select rc.* from t_mapping_project mp
-    left join t_result_commit rc
-    on rc.ref_id=mp.id
-    <where>
-      1=1
-      <if test="name !=null and name !='' ">
-        AND rc.name like '%${name}%'
-      </if>
-      <if test="createDate != null and createDate !='' ">
-        AND rc.create_date like '%${createDate}%'
-      </if>
-      <if test="projectType != null and projectType !='' ">
-        AND mp.project_type like '%${projectType}%'
-      </if>
-    </where>
+  <select id="selectProjectType" resultType="HashMap" >
+   select project_type,status,count(project_type) from t_mapping_project group by project_type,status;
+
   </select>
-  <select id="selectAllProjectResult" resultMap="BaseResultMap" >
-    SELECT *
-    FROM t_mapping_project
-    WHERE results_status=3
-  </select>
-  <select id="selectAllProjectResultByType" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    SELECT *
-    FROM t_mapping_project
-    <where>
-      results_status=3
-      <if test="projectType != null and projectType != '' ">
-        AND project_type=#{projectType, jdbcType=VARCHAR}
-      </if>
-    </where>
-  </select>
-  <update id="updateProjectResultStatusById" parameterType="java.lang.Long" >
-    UPDATE t_mapping_project
-    SET results_status=2
-    WHERE id=#{id, jdbcType=BIGINT}
-  </update>
 </mapper>

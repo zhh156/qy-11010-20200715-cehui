@@ -121,4 +121,13 @@ public class MenuController extends BaseController {
     public ResultData deleteMenus(@RequestBody List<Object> ids){
         return iProjectService.deleteMenus(ids);
     }
+    /**
+     *@Author tuo
+     *@Date 2020/7/21
+     * 根据用户查询信息
+     **/
+    @PostMapping("/queryInterface")
+    public ResultData queryInterface(@RequestParam("username")String username){
+        return iProjectService.queryInterface(username);
+    }
 }

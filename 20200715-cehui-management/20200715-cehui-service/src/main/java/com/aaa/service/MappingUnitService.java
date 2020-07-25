@@ -285,4 +285,45 @@ public class MappingUnitService extends BaseService<MappingUnit> {
         }
         return null;
     }
+
+    /**
+     * @Author ymq
+     * @Date 2020/7/19
+     **/
+    public List<MappingUnit> selectOneMappingUnit(Long id) {
+        if (!"".equals(id)) {
+            return mappingUnitMapper.selectOneMappingUnit(id);
+        }
+        return null;
+    }
+
+    /**
+     * @Author ymq
+     * @Date 2020/7/19 16:26
+     * 白名单查询
+     **/
+
+    public PageInfo selectStatusOneMappingUnit(Map hashMap) {
+        PageHelper.startPage(Integer.parseInt(hashMap.get("pageNumber") + ""), Integer.parseInt(hashMap.get("pageSize") + ""));
+        PageInfo pageInfo = new PageInfo(mappingUnitMapper.selectStatusOneMappingUnit());
+        if (null != pageInfo && !"".equals(pageInfo)) {
+            return pageInfo;
+        }
+        return null;
+    }
+
+
+    /**
+     * @Author ymq
+     * @Date 2020/7/19 16:35
+     * 黑名单查询
+     **/
+    public PageInfo selectStatusTwoMappingUnit(Map hashMap) {
+        PageHelper.startPage(Integer.parseInt(hashMap.get("pageNumber") + ""), Integer.parseInt(hashMap.get("pageSize") + ""));
+        PageInfo pageInfo = new PageInfo(mappingUnitMapper.selectStatusTwoMappingUnit());
+        if (null != pageInfo && !"".equals(pageInfo)) {
+            return pageInfo;
+        }
+        return null;
+    }
 }

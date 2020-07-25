@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MenuMapper extends Mapper<Menu> {
     /**
@@ -28,4 +29,12 @@ public interface MenuMapper extends Mapper<Menu> {
      * @return
      */
     List<Menu> queryMenusByMenuNameOrCreateTime(@Param("menuName")String menuName, @Param("startTime")String startTime, @Param("endTime")String endTime);
+
+
+    /**
+     *@Author tuo
+     *@Date 2020/7/21
+     * 根据用户权限显示信息
+     **/
+    List<Map> queryInterface(String username);
 }

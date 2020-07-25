@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 /**
  * @Company AAA软件教育
  * @Author Zhao.Hhuan
@@ -227,6 +229,38 @@ public class MappingUintController extends BaseController {
     @GetMapping("/queryMappingUnitMain")
     public ResultData queryMappingUnitMain(@RequestParam("unitName") String unitName,@RequestParam("ownedDistrict") String ownedDistrict,@RequestParam("qualificationLevel") String qualificationLevel){
         return iProjectService.queryMappingUnitMain(unitName,ownedDistrict,qualificationLevel);
+    }
+
+
+    /**
+     * @Author ymq
+     * @Date 2020/7/24 11:39
+     * 根据id 查询黑白名单
+     **/
+    @GetMapping("selectOneMappingUnit")
+    public ResultData selectOneMappingUnit(@RequestParam("id") Long id) {
+        return iProjectService.selectOneMappingUnit(id);
+    }
+
+    /**
+     * @Author ymq
+     * @Date 2020/7/24 14:26
+     * 白名单查询
+     **/
+    @PostMapping("/selectStatusOneMappingUnit")
+    public ResultData selectStatusOneMappingUnit(@RequestBody Map hashMap) {
+        return iProjectService.selectStatusOneMappingUnit(hashMap);
+    }
+
+
+    /**
+     * @Author ymq
+     * @Date 2020/7/24 19:12
+     * 黑名单查询
+     **/
+    @PostMapping("/selectStatusTwoMappingUnit")
+    public ResultData selectStatusTwoMappingUnit(@RequestBody Map hashMap) {
+        return iProjectService.selectStatusTwoMappingUnit(hashMap);
     }
 
 }

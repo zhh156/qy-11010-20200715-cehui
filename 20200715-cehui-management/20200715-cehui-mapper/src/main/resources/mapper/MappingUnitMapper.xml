@@ -122,4 +122,77 @@
       </if>
     </trim>
   </select>
+
+
+
+  <select id="qualifications" resultType="map" >
+    select qualification_level,count(qualification_level) from t_mapping_unit
+    group by qualification_level;
+  </select>
+  <select id="noComplete" resultType="map">
+    select CONCAT_WS('','未完成',project_type)name,count(1) VALUE FROM t_mapping_project
+    WHERE status = 2 GROUP BY project_type
+  </select>
+  <select id="complete" resultType="map">
+    select CONCAT_WS('','已完成',project_type)name,count(1) VALUE FROM t_mapping_project
+    WHERE status = 2 GROUP BY project_type
+  </select>
+  <select id="companyArtisan" resultType="map">
+    select count(1) number, te.major_type from t_mapping_unit tm
+    join t_technicist te on tm.user_id = te.user_id where te.user_id = #{userId}
+    GROUP BY te.major_type
+  </select>
+  <select id="companyeQuipment" resultType="map">
+  select count(1) number,te.name from t_mapping_unit tu
+  join  t_equipment te on tu.user_id =te.user_id where tu.user_id = #{userId}
+  GROUP BY te.name
+  </select>
+  <select id="companyeXiangMuNum" resultType="map">
+    select count(1) 'tmpcount' from t_mapping_project where user_id=#{userId}
+  </select>
+  <select id="peopleGrade" resultType="map">
+    select count(1) value,tm.qualification_level,te.major_type from t_mapping_unit tm
+    join t_technicist te on tm.user_id = te.user_id
+    GROUP BY tm.qualification_level,te.major_type
+  </select>
+  <select id="equipmentGrade" resultType="map">
+  select count(1) number, tm.qualification_level,te.name from t_mapping_unit tm
+  join t_equipment te on tm.user_id = te.user_id
+  GROUP BY tm.qualification_level,te.name
+  </select>
+
+  <!--单位基本信息-->
+  <select id="selectUserDanWei" resultMap="BaseResultMap">
+    select * from t_mapping_unit where user_id = #{userId}
+  </select>
+  <select id="selectALLPrin" resultType="map">
+    select * from t_principal where user_id = #{userId}
+  </select>
+  <select id="selectJiShuRenYuan" resultType="map">
+    select * from t_technicist where user_id = #{userId}
+  </select>
+
+
+  <select id="selectOneMappingUnit" resultType="MappingUnit" parameterType="MappingUnit">
+    select  id, create_time, modify_time, memo, unit_name, register_address, register_time,
+    oa, corporation, linkman, owned_district, register_fund, social_credit_code, qualification_level,
+    phone, contact_way, used_name, register_address_lon, register_address_lat, register_address_postcode,
+    oa_postcode, oa_area, establish_time, mobile_phone, fax_num, email, surveying_num,
+    staff_num, unit_nature, belong_industry, certificate_code, certificate_send_date,
+    company_type, stock_details, joint_venture, joint_ch_p, joint_ratify_code, competent_depart,
+    first_qualification_level, first_qualification_date, qualification_process, organization_code,
+    unit_type, user_id, audit_status, unit_code, unit_status, synchronization_status,
+    score, filing_business, business_scope, unit_intro, coordinate
+    from t_mapping_unit
+  </select>
+  <select id="selectStatusOneMappingUnit" resultType="MappingUnit" parameterType="MappingUnit">
+    select id,unit_name,oa,qualification_level,certificate_code,belong_industry,linkman,phone,score
+    from t_mapping_unit
+    where score >= 100
+  </select>
+  <select id="selectStatusTwoMappingUnit" resultType="MappingUnit" parameterType="MappingUnit">
+    select id,unit_name,oa,qualification_level,certificate_code,belong_industry,linkman,phone,score
+    from t_mapping_unit
+    where  60 > score
+  </select>
 </mapper>

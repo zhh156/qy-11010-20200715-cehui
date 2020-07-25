@@ -11,4 +11,23 @@
     <result column="FIELD_NAME" property="fieldName" jdbcType="VARCHAR" />
     <result column="TABLE_NAME" property="tableName" jdbcType="VARCHAR" />
   </resultMap>
+
+  <select id="selectAlls" resultType="map">
+    select * from t_dict
+    <where>
+      1 = 1
+      <if test=" keyy != null and keyy != '' ">
+        and KEYY like '%${keyy}%'
+      </if>
+      <if test=" valuee != null and valuee != '' ">
+        and VALUEE like '%${valuee}%'
+      </if>
+      <if test=" fieldName != null and fieldName != '' ">
+        and FIELD_NAME like '%${fieldName}%'
+      </if>
+      <if test=" tableName != null and tableName != '' ">
+        and 'TABLE_NAME' like '%${tableName}%'
+      </if>
+    </where>
+  </select>
 </mapper>

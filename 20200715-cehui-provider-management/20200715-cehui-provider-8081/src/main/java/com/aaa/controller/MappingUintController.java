@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Company AAA软件教育
@@ -255,6 +256,53 @@ public class MappingUintController extends CommonController<MappingUnit> {
             return querySuccess(mappingUnits);
         }
         return queryFailed();
+    }
+
+    /**
+     * @Author ymq
+     * @Date 2020/7/19
+     * 根据id查询信息
+     **/
+
+    @GetMapping("selectOneMappingUnit")
+    public ResultData selectOneMappingUnit(@RequestParam("id") Long id){
+        List<MappingUnit> mappingUnits =mappingUnitService.selectOneMappingUnit(id);
+        if(mappingUnits !=null){
+            return querySuccess(mappingUnits);
+        }else {
+            return queryFailed();
+        }
+    }
+
+    /**
+     *@Author ymq
+     *@Date 2020/7/19
+     * 白名单查询
+     **/
+    @PostMapping("/selectStatusOneMappingUnit")
+    public ResultData selectStatusOneMappingUnit(@RequestBody Map hashMap){
+        PageInfo pageInfo = mappingUnitService.selectStatusOneMappingUnit(hashMap);
+        if (pageInfo != null || ("").equals(pageInfo)) {
+            return querySuccess(pageInfo);
+        }else {
+            return queryFailed();
+        }
+    }
+
+
+    /**
+     *@Author ymq
+     *@Date 2020/7/19
+     * 黑名单查询
+     **/
+    @PostMapping("/selectStatusTwoMappingUnit")
+    public ResultData selectStatusTwoMappingUnit(@RequestBody Map hashMap){
+        PageInfo pageInfo = mappingUnitService.selectStatusTwoMappingUnit(hashMap);
+        if (pageInfo != null || ("").equals(pageInfo)) {
+            return querySuccess(pageInfo);
+        }else {
+            return queryFailed();
+        }
     }
 
 }

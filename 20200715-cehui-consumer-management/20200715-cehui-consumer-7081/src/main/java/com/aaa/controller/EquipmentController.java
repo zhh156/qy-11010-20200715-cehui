@@ -1,16 +1,9 @@
 package com.aaa.controller;
 
 import com.aaa.base.BaseController;
-import com.aaa.base.ResultData;
-import com.aaa.model.Equipment;
 import com.aaa.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * @Company AAA软件教育
@@ -32,8 +25,9 @@ public class EquipmentController extends BaseController {
      * @param file
      * @return com.aaa.base.ResultData
      **/
-    @PostMapping("/insertEquipmentByUserId")
+    //TODO 这一块参数有问题
+   /* @PostMapping("/insertEquipmentByUserId")
     public ResultData insertEquipmentByUserId(@RequestBody Equipment equipment, @RequestBody List<MultipartFile> file){
         return iProjectService.insertEquipmentByUserId(equipment,file);
-    }
+    }*/
 }

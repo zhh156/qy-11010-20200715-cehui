@@ -34,4 +34,15 @@
       </if>
     </trim>
   </select>
+
+
+
+  <select id="queryInterface" resultType="map">
+    SELECT m.* FROM `t_user` u
+    left join t_user_role  ur on u.id=ur.USER_ID
+    left join t_role r on ur.ROLE_ID=r.ROLE_ID
+    left join t_role_menu rm on r.ROLE_ID=rm.ROLE_ID
+    left join t_menu m on rm.MENU_ID=m.MENU_ID where parent_id=0 and
+	u.username= #{username}
+  </select>
 </mapper>

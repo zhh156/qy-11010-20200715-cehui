@@ -5,6 +5,7 @@ import com.aaa.base.ResultData;
 import com.aaa.service.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,5 +36,33 @@ public class MappingProjectController extends BaseController {
     public ResultData queryMappingProjectByUserId(@RequestParam("userId") Long userId,@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                                                   @RequestParam(name="pageSize",defaultValue =  "10")Integer pageSize, @RequestParam("projectName") String projectName){
         return iProjectService.queryMappingProjectByUserId(userId,pageNum,pageSize,projectName);
+    }
+
+    /**
+     * ymq
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/getAllProjectResult")
+    public ResultData getAllProjectResult(Integer pageNo, Integer pageSize){
+        return iProjectService.selectAllProjectResult(pageNo, pageSize);
+    }
+
+    /**
+     * ymq
+     * @param projectType
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/getAllProjectResultByType")
+    public ResultData getAllProjectResultByType(String projectType, Integer pageNo, Integer pageSize){
+        return iProjectService.selectAllProjectResultByType(projectType, pageNo, pageSize);
+    }
+
+    @PostMapping("/updateProjectResultStatusById")
+    public ResultData updateProjectResultStatusById(Long id){
+        return iProjectService.updateProjectResultStatusById(id);
     }
 }

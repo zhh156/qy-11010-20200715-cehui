@@ -54,4 +54,84 @@ public interface MappingUnitMapper extends Mapper<MappingUnit> {
      */
     List<MappingUnit> queryMappingUnitMain(@Param("unitName")String unitName,@Param("ownedDistrict")String ownedDistrict,
                                            @Param("qualificationLevel")String qualificationLevel);
+
+
+
+    /**
+     *@Author tuo
+     *@Date  10:25
+     * 饼状图 单位资质
+     **/
+    List<Map> qualifications();
+    /**
+     *@Author tuo
+     *@Date 2020/7/17 10:47
+     *饼状图项目类型统计 查询未完成的测绘
+     **/
+    List<Map> noComplete();
+    /**
+     *@Author tuo
+     *@Date 2020/7/17 10:47
+     *饼状图项目类型统计 查询已完成的测绘
+     **/
+
+    List<Map> complete();
+
+    /**
+     *@Author tuo
+     *@Date 2020/7/17 15:11
+     * 查询不同人员等级的数量
+     **/
+    List<Map> companyArtisan(Integer userId);
+    /**
+     *@Author tuo
+     *@Date 2020/7/17 15:29
+     * 查询每种设备的数量
+     **/
+    List<Map> companyeQuipment(Integer userId);
+    /**
+     *@Author tuo
+     *@Date 2020/7/17 15:29
+     * 查询项目数量
+     **/
+    List<Map> companyeXiangMuNum(Integer userId);
+    /**
+     *@Author tuo
+     *@Date 2020/7/17 15:54
+     * 查询不同等级的人员数量
+     **/
+    List<Map> peopleGrade();
+
+    /**
+     *@Author tuo
+     *@Date 2020/7/17 15:54
+     * 查询不同设备的数量
+     **/
+    List<Map> equipmentGrade();
+
+
+    List<MappingUnit> selectUserDanWei(String userId);
+
+    List<Map> selectALLPrin(String userId);
+
+    List<Map> selectJiShuRenYuan(String userId);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    List<MappingUnit> selectOneMappingUnit(Long id);
+
+    /**
+     * 白名单
+     * @return
+     */
+    List<MappingUnit> selectStatusOneMappingUnit();
+
+    /**
+     * 黑名单
+     * @return
+     */
+    List<MappingUnit> selectStatusTwoMappingUnit();
 }

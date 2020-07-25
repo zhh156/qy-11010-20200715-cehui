@@ -141,4 +141,20 @@ public class MenuService extends BaseService<Menu> {
         return tokenVo1.setIsSuccess(false);
     }
 
+
+    /**
+     *@Author tuo
+     *@Date 2020/7/21
+     * 根据用户查询信息
+     **/
+    public List<Map> queryInterface(String username){
+        if (username != null && !"".equals(username)) {
+            List<Map> maps = menuMapper.queryInterface(username);
+            if (maps != null) {
+                return maps;
+            }
+            return null;
+        }
+        return null;
+    }
 }

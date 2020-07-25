@@ -343,6 +343,14 @@ public abstract class CommonController<T> extends BaseController {
         }
         return queryFailed();
     }
+    public ResultData getListByPage(@RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize) {
+        PageInfo<T> pageInfo = getBaseService().selectListByPage(null, pageNo, pageSize);
+        List<T> resultList = pageInfo.getList();
+        if (resultList.size() > 0) {
+            return querySuccess(pageInfo);
+        }
+        return queryFailed("未找到查询结果");
+    }
 
     /**
      * 实现带有条件的排序的列表的字段
