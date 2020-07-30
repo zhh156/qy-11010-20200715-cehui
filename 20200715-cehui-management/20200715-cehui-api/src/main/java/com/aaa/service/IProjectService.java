@@ -145,11 +145,11 @@ public interface IProjectService {
                                               @RequestParam("age")Integer age, @RequestParam("sex") Integer sex, @RequestParam("workYear") Integer workYear, @RequestParam("duty") String duty,
                                               @RequestParam("title")String title, @RequestParam("mappingYear") Integer mappingYear, @RequestParam("major") String major, @RequestParam("userId") Long userId,
                                               @RequestPart(value = "file",required = false) MultipartFile[] file);
-    @PostMapping("/updatePrincipalById")
+    @PostMapping(value = "/updatePrincipalById",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},produces = {"application/json;charset=UTF-8"})
     ResultData updatePrincipalById(@RequestParam("type") String type, @RequestParam("name") String name, @RequestParam("idType") String idType, @RequestParam("idNumber") String idNumber,
                                           @RequestParam("age")Integer age, @RequestParam("sex") Integer sex, @RequestParam("workYear") Integer workYear, @RequestParam("duty") String duty,
                                           @RequestParam("title")String title, @RequestParam("mappingYear") Integer mappingYear, @RequestParam("major") String major, @RequestParam("userId") Long userId,
-                                          @RequestParam("file")MultipartFile file,@RequestParam("id")Long id);
+                                          @RequestPart(value = "file",required = false) MultipartFile[] file,@RequestParam("id")Long id);
 
     @GetMapping("/deletePrincipalById")
     ResultData deletePrincipalById(@RequestParam("id") Long id,@RequestParam("userId")Long userId);
@@ -162,6 +162,10 @@ public interface IProjectService {
 
     @PostMapping("/deleteTechnicist")
     ResultData deleteTechnicist(@RequestBody Technicist technicist);
+
+    @PostMapping(value = "/insertEquipmentByUserId",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},produces = {"application/json;charset=UTF-8"})
+    ResultData insertEquipmentByUserId(@RequestBody Equipment equipment,@RequestPart(value = "files1",required = false) MultipartFile[] files1,
+                                       @RequestPart(value = "files2",required = false) MultipartFile[] files2);
 
     @GetMapping("/queryMappingUnitMain")
     ResultData queryMappingUnitMain(@RequestParam("unitName") String unitName,@RequestParam("ownedDistrict") String ownedDistrict,@RequestParam("qualificationLevel") String qualificationLevel);

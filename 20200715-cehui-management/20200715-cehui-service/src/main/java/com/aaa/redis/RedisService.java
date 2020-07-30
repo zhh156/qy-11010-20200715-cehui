@@ -4,6 +4,7 @@ import com.aaa.utils.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import redis.clients.jedis.JedisCluster;
@@ -20,7 +21,7 @@ import static com.aaa.staticproperties.RedisProperties.*;
 * @date 2020/7/10 15:03
 * redis业务处理类
 */
-//@Service
+@Service
 public class RedisService<T> {
     @Autowired
     private JedisCluster jedisCluster;

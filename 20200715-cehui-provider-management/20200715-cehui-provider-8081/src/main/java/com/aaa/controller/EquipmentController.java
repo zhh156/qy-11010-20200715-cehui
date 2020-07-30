@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 /**
  * @Company AAA软件教育
  * @Author Zhao.Hhuan
@@ -57,12 +55,13 @@ public class EquipmentController extends CommonController<Equipment> {
      * @description:
      *      添加设备信息
      * @param equipment
-	 * @param file
+	 * @param files1 所有权证明文件
+     * @param files2 检定证明文件
      * @return com.aaa.base.ResultData
      **/
     @PostMapping("/insertEquipmentByUserId")
-    public ResultData insertEquipmentByUserId(@RequestBody Equipment equipment,@RequestBody List<MultipartFile> file){
-        TokenVo tokenVo = equipmentService.insertEquipmentByUserId(equipment, file, resourceService);
+    public ResultData insertEquipmentByUserId(@RequestBody Equipment equipment,@RequestParam("files1") MultipartFile[] files1,@RequestParam("files2") MultipartFile[] files2){
+        TokenVo tokenVo = equipmentService.insertEquipmentByUserId(equipment, files1,files2, resourceService);
         if(tokenVo.getIsSuccess()){
             return addSuccess(tokenVo);
         }

@@ -35,4 +35,5 @@ public class UploadController extends BaseController {
         }
         return iProjectService.uploadImage(file);
     }
+
 }

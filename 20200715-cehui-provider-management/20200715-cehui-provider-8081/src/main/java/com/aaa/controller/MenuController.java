@@ -4,6 +4,7 @@ import com.aaa.base.BaseService;
 import com.aaa.base.CommonController;
 import com.aaa.base.ResultData;
 import com.aaa.model.Menu;
+import com.aaa.redis.RedisService;
 import com.aaa.service.MenuService;
 import com.aaa.vo.TokenVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import java.util.Map;
 public class MenuController extends CommonController<Menu> {
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private RedisService redisService;
     @Override
     public BaseService<Menu> getBaseService() {
         return menuService;
@@ -39,7 +42,7 @@ public class MenuController extends CommonController<Menu> {
      **/
     @GetMapping("/queryOne")
     public ResultData queryOne(){
-        List<Menu> menus = menuService.queryOne();
+        List<Menu> menus = menuService.queryOne(redisService);
         if(menus!=null && menus.size() > 0){
             return querySuccess(menus);
         }
@@ -118,7 +121,7 @@ public class MenuController extends CommonController<Menu> {
      **/
     @PostMapping("/updateMenu")
     public ResultData updateMenu(@RequestBody Menu menu){
-        TokenVo tokenVo = menuService.updateMenu(menu);
+        TokenVo tokenVo = menuService.updateMenu(menu,redisService);
         if(tokenVo.getIsSuccess()){
             return updateSuccess(tokenVo);
         }

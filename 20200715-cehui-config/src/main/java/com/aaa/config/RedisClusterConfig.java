@@ -2,6 +2,7 @@ package com.aaa.config;
 
 import com.aaa.properties.RedisClusterProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
@@ -24,6 +25,7 @@ public class RedisClusterConfig {
      * 获取redis的连接类
      * @return
      */
+    @Bean
     public JedisCluster getJedisCluster(){
         String nodes = redisClusterProperties.getNodes();
         String[] split = nodes.split(",");

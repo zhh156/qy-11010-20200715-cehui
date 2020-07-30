@@ -12,4 +12,9 @@ public class RedisProperties {
     public static final String PX = "px";
     public static final String NO = "NO";
 
+    /**
+     * menu_key常量
+     */
+    public static final String MENU_KEY = "${menu_key}";
+
 }

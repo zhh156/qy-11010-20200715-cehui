@@ -72,7 +72,7 @@ public class PrincipalController extends BaseController {
     public ResultData updatePrincipalById(@RequestParam("type") String type, @RequestParam("name") String name, @RequestParam("idType") String idType, @RequestParam("idNumber") String idNumber,
                                           @RequestParam("age")Integer age, @RequestParam("sex") Integer sex, @RequestParam("workYear") Integer workYear, @RequestParam("duty") String duty,
                                           @RequestParam("title")String title, @RequestParam("mappingYear") Integer mappingYear, @RequestParam("major") String major, @RequestParam("userId") Long userId,
-                                          @RequestParam("file")MultipartFile file,@RequestParam("id")Long id){
+                                          @RequestParam("file") MultipartFile[] file,@RequestParam("id")Long id){
         return iProjectService.updatePrincipalById(type,name,idType,idNumber,age,sex,workYear,duty,title,mappingYear,major,userId,file,id);
     }
 

@@ -9,6 +9,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
@@ -62,7 +65,8 @@ public class EquipmentService extends BaseService<Equipment> {
 	 * @param resourceService
      * @return com.aaa.vo.TokenVo
      **/
-    public TokenVo insertEquipmentByUserId(Equipment equipment, List<MultipartFile> file, ResourceService resourceService){
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.READ_COMMITTED)
+    public TokenVo insertEquipmentByUserId(Equipment equipment, MultipartFile[] files1,MultipartFile[] files2, ResourceService resourceService){
         TokenVo tokenVo = new TokenVo();
         //1.判断前端的数据是否传过来
         if(equipment.getUserId() != null){
@@ -82,11 +86,24 @@ public class EquipmentService extends BaseService<Equipment> {
             if(insert > 0){
                 //成功
                 //5.上传文件
-                //TODO 对于多个文件的上传存在问题，怎么能够对多个文件进行分类循环上传
-                TokenVo tokenVo1 = resourceService.insertResourceById(file.get(0), "所有权证明", id, null);
-                TokenVo tokenVo2 = resourceService.insertResourceById(file.get(1), "检定证明", id, null);
+                Integer result1 = 0;
+                TokenVo tokenVo1 = null;
+                for (MultipartFile multipartFile : files1) {
+                    tokenVo1 = resourceService.insertResourceById(multipartFile, "所有权证明", id, null);
+                    if(tokenVo1.getIsSuccess()){
+                        result1 = result1  + 1;
+                    }
+                }
+                Integer result2 = 0;
+                TokenVo tokenVo2 = null;
+                for (MultipartFile multipartFile : files2) {
+                    tokenVo2 = resourceService.insertResourceById(multipartFile, "检定证明", id, null);
+                    if(tokenVo2.getIsSuccess()){
+                        result2 += 1;
+                    }
+                }
                 //6.判断上传是否成功
-                if(tokenVo1.getIsSuccess() && tokenVo2.getIsSuccess()){
+                if(result1 == files1.length && result2 == files2.length){
                     return tokenVo.setIsSuccess(true);
                 }else {
                     //添加资源失败
