@@ -15,7 +15,5 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        //跳转到登录界面
-        registry.addViewController("/").setViewName("/login");
     }
 }

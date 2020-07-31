@@ -2,10 +2,14 @@ package com.aaa.service;
 
 import com.aaa.base.BaseService;
 import com.aaa.model.User;
+import com.aaa.utils.StringUtils;
 import com.aaa.vo.TokenVo;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.UUID;
+
+import static com.aaa.staticproperties.LoginStatic.TOKEN;
 
 /**
  * @Company AAA软件教育
@@ -24,11 +28,23 @@ public class LoginService extends BaseService<User> {
      *      pojo：实体类
      *      povo：封装类型（当在实际开发中，会有很多中情况导致多表联查的时候无法装载数据-->我们
      *          就需要根据返回前端的数据去封装一个对象出来-->view object
-     * @param user
+     * @param map
      * @return com.aaa.vo.TokenVo
      **/
-    public TokenVo doLogin(User user){
+    public TokenVo doLogin(Map map){
         TokenVo tokenVo = new TokenVo();
+        //1.先判断map中是否有值，如果没有则直接返回null
+        if(null == map){
+            return tokenVo.setIsSuccess(false).setToken(null);
+        }
+        //2.细节：需要判断map中是否有token，如果有则说明用户是直接通过返回按钮，或者直接通过输入地址做的二次登录
+        //要去判断是否有token，防止出现二次登录
+        if(null != map.get(TOKEN) && StringUtils.isNotEmpty(TOKEN)){
+            //说明map中有token
+            map.remove(TOKEN);
+        }
+        //3.将map对象转换为实体类对象
+        User user = super.newInstance(map);
         User user1 = new User();
         //1.判断user是否为null
         if(user.getUsername() != null){

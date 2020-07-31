@@ -13,6 +13,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
  **/
 @SpringBootApplication
 @EnableDiscoveryClient
+//@RibbonClient(name="cehui-interface-consumer")
 @EnableZuulProxy //开启路由
 public class MainStarterZuul {
     public static void main(String[] args) {

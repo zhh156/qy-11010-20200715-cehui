@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @Company AAA软件教育
  * @Author Zhao.Hhuan
@@ -31,12 +33,12 @@ public class LoginController extends CommonController<User> {
      * @date 2020/7/15 15:06
      * @description:
      *      执行登录操作
-     * @param user
+     * @param map
      * @return com.aaa.base.ResultData
      **/
     @PostMapping("/doLogin")
-    public ResultData doLogin(@RequestBody User user){
-        TokenVo doLogin = loginService.doLogin(user);
+    public ResultData doLogin(@RequestBody Map map){
+        TokenVo doLogin = loginService.doLogin(map);
         if(doLogin.getIsSuccess()){
             return super.loginSuccessData(doLogin.getToken());
         }else{
@@ -46,6 +48,6 @@ public class LoginController extends CommonController<User> {
                 case 4: return super.systemWrong(null);
             }
         }
-        return null;
+        return super.systemWrong(null);
     }
 }

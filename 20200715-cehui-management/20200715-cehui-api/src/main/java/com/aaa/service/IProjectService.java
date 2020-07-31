@@ -20,7 +20,7 @@ import java.util.Map;
 @FeignClient(value = "CEHUI-INTERFACE-PROVIDER")
 public interface IProjectService {
     @PostMapping("/doLogin")
-    ResultData doLogin(@RequestBody User user);
+    ResultData doLogin(@RequestBody Map map);
 
     @PostMapping("/addLoginLog")
     Integer addLoginLog(@RequestBody LoginLog loginLog);

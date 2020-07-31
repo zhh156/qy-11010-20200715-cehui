@@ -8,7 +8,7 @@ import java.util.Enumeration;
  * @Author Zhao.Hhuan
  * @Date Create in 2020/7/26 14:08
  * @Description
- *      获取请求路径中的请求参数
+ *      获取GET请求路径中的请求参数
  **/
 public class GetParamsUtils {
     private GetParamsUtils(){
